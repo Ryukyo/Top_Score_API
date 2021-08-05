@@ -1,12 +1,16 @@
-class ScoresController < ApplicationController
+class Api::V1::ScoresController < ApplicationController
         def index
             @scores = Score.all 
-            render json: @scores
+            render json: @scores, status: 200
         end 
     
         def show
             @score = Score.find(params[:id])
-            render json: @score
+            if @score
+                render json: @score, status: 200
+            else
+                render json: {error: "Score not found"}, status: 404
+            end
         end 
     
         def create
@@ -15,7 +19,7 @@ class ScoresController < ApplicationController
                 score: params[:score],
                 time: params[:time]
             )
-            render json: @score
+            render json: @score, status: 201
         end 
 
     
@@ -23,6 +27,6 @@ class ScoresController < ApplicationController
             @scores = Score.all 
             @score = Score.find(params[:id])
             @score.destroy
-            render json: @scores
+            render json: @scores, status: 200
         end 
 end
