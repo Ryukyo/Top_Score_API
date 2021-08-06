@@ -35,8 +35,8 @@ score must be an integer > 0
 Returns the score of the given id
 `api/v1/scores/{id}`
 
-Returns a filtered list of scores
-`api/v1/scores?before=01.01.21.07.30&after=01.01.21.07.30&player[]=Hiromi&player[]=Brandon`
+Returns a filtered list of scores, or unfiltered if no parameters given
+`api/v1/scores?after=2020-08-07&player[]=Hiromi&player[]=braNdon&before=2021-08-05`
 
 Returns a players score history
 `api/v1/scores?history=abc1`
