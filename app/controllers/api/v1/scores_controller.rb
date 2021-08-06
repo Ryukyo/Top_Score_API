@@ -2,11 +2,11 @@ class Api::V1::ScoresController < ApplicationController
     before_action :set_score, only: [:show, :destroy]
     
         def index
-            players = params[:player].map { |string| string.downcase.titleize }
-            before = params[:before]
-            after = params[:after]
-            if  players|| before || after
-                @players = Score.where(player: players)
+            if  params[:player]|| params[:before] || params[:after]
+                players = params[:player].map { |string| string.downcase.titleize }
+                before = params[:before]
+                after = params[:after]
+                @players = Score.where(player: players).where("time > ? AND time < ?", after, before )
                 render json: @players, only: [:id, :player, :score, :time], status: 200
             else 
                 @scores = Score.all 
