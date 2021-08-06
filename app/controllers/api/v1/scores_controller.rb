@@ -1,8 +1,11 @@
 class Api::V1::ScoresController < ApplicationController
+    MAX_PAGINATION_LIMIT = 100
     before_action :set_score, only: [:show, :destroy]
-    before_action :set_all_scores, only: [:index, :destroy]
+    before_action :set_all_scores, only: [:destroy]
     
         def index
+            @scores = Score.limit(limit).offset(params[:offset])
+
             if  params[:player] 
                 players = params[:player].map { |string| string.downcase.titleize }
                 @scores = @scores.where(player: players)   
@@ -46,6 +49,13 @@ class Api::V1::ScoresController < ApplicationController
         end
         
         private
+            def limit
+                [
+                    params.fetch(:limit, MAX_PAGINATION_LIMIT).to_i,
+                    MAX_PAGINATION_LIMIT
+                ].min
+            end
+
             def score_params
                 params.permit([:player,:score,:time])
             end
