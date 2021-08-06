@@ -2,8 +2,14 @@ class Api::V1::ScoresController < ApplicationController
     before_action :set_score, only: [:show, :destroy]
     
         def index
-            @scores = Score.all 
-            render json: @scores, only: [:id, :player, :score, :time], status: 200
+            if params[:player] || params[:before] || params[:after]
+                p(params[:player])
+                @players = Score.where(player: params[:player])
+                render json: @players, only: [:id, :player, :score, :time], status: 200
+            else 
+                @scores = Score.all 
+                render json: @scores, only: [:id, :player, :score, :time], status: 200
+            end
         end 
     
         def show
