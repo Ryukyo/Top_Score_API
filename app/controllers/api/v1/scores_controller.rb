@@ -1,35 +1,45 @@
 class Api::V1::ScoresController < ApplicationController
+    before_action :set_score, only: [:show, :destroy]
+    
         def index
             @scores = Score.all 
             render json: @scores, only: [:id, :player, :score, :time], status: 200
         end 
     
         def show
-            @score = Score.find(params[:id])
             if @score
-                render json: @score, only: [:id, :player, :score, :time], status: 200
+                render json: @score, only: [:player, :score, :time], status: 200
             else
                 render json: {error: "Score not found"}, status: 404
             end
         end 
     
         def create
-            @score = Score.create!(
-                score_params
+            @score = Score.new(
+                player: score_params[:player],
+                score: score_params[:score],
+                time: score_params[:time]
             )
-            render json: @score, only: [:player, :score, :time], status: 201
+            if @score.save
+                render json: @score, only: [:player, :score, :time], status: 201
+            else
+                render json: {error: @score.errors}, status: 400
+            end
         end 
 
         def destroy
             @scores = Score.all 
-            @score = Score.find(params[:id])
             @score.destroy
             render json: @scores, only: [:player, :score, :time], status: 200
         end
         
         private
-        def score_params
-            params.require(:player,:score,:time)
-        end
+            def score_params
+                params.permit([:player,:score,:time])
+            end
+
+            def set_score
+                @score = Score.find(params[:id])
+            end
         
 end

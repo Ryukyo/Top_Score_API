@@ -22,12 +22,12 @@ rails s
 ** Score
   
 *** Create
-
+id will be assigned automatically
+score must be an integer > 0
 ```
-id: 123456,
-player: "player_name",
-score: integer > 0,
-time: "2021-08-05 07:33:41"
+"player": "Brandon",
+"score": 2,
+"time": "2020-08-06 17:03:18"
 ```
 
 *** Get
