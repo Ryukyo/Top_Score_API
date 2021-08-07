@@ -48,6 +48,8 @@ For further commands and more detailed up to date documentation, please refer to
   ```
 
 - How to run the test suite
+  :warning: Requires running server
+
   ```
   bundle exec rspec
   ```
@@ -56,7 +58,7 @@ For further commands and more detailed up to date documentation, please refer to
 
 ### Create
 
-Id will be assigned automatically
+Id will be assigned automatically\\
 Score must be an integer > 0
 
 Sample body:
@@ -69,7 +71,7 @@ Sample body:
 
 ### Get
 
-Returns the score of the given id\
+Returns the score of the given id\\
 `api/v1/scores/{id}`
 
 Sample response:
@@ -82,7 +84,7 @@ Sample response:
 }
 ```
 
-Returns a filtered list of scores, or unfiltered if no parameters given; maximum limit of 100 to reduce stress on DB. All parameters are optional, multiple player names can be submitted, which are handled case insensitive.\
+Returns a filtered list of scores, or unfiltered if no parameters given; maximum limit of 100 to reduce stress on DB. All parameters are optional, multiple player names can be submitted, which are handled case insensitive.\\
 `api/v1/scores?after=2020-08-07&player[]=Hiromi&player[]=braNdon&before=2021-08-05&offset=1&limit=5`
 
 Sample response:
@@ -98,10 +100,10 @@ Sample response:
 ]
 ```
 
-Returns a players score history\
+Returns a players score history\\
 `api/v1/scores?history=Hiromi`
 
-This response is more deeply nested, as I used _jsonapi-serializer_, which does not allow to omit values like id or type and attaches the result data to the "attributes" property, but it successfully removed player and other timestamps.
+This response is more deeply nested, as I used "jsonapi-serializer", which does not allow to omit values like id or type and attaches the result data to the "attributes" property, but it successfully removed player and other timestamps.
 
 Contrary to the other endpoints, using `only: ["listOfProperties"]` was not a valid option when building custom json
 
@@ -156,5 +158,5 @@ Sample response:
 ### Delete
 
 Deletes the score of the given id.
-Returns a list of the remaining score entries.\
+Returns the deleted score for confirmation.\\
 `api/v1/scores/{id}`

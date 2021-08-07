@@ -1,7 +1,7 @@
 class Api::V1::ScoresController < ApplicationController
     MAX_PAGINATION_LIMIT = 100
     before_action :set_score, only: [:show, :destroy]
-    before_action :set_all_scores, only: [:destroy]
+    rescue_from ActiveRecord::RecordNotFound, with: :show_errors
     
         def index
             @scores = Score.limit(limit).offset(params[:offset])
@@ -78,12 +78,17 @@ class Api::V1::ScoresController < ApplicationController
         end 
 
         def destroy
-            @scores = Score.all 
             @score.destroy
-            render json: @scores, only: [:player, :score, :time], status: 200
+            render json: @score, only: [:player, :score, :time], status: 200
         end
         
         private
+            def show_errors
+                if action_name == "show" || action_name == "destroy"
+                    render json: {error: "Score not found"}, status: 404
+                end
+            end
+
             def limit
                 [
                     params.fetch(:limit, MAX_PAGINATION_LIMIT).to_i,
@@ -99,7 +104,4 @@ class Api::V1::ScoresController < ApplicationController
                 @score = Score.find(params[:id])
             end
 
-            def set_all_scores
-                @scores = Score.all
-            end
 end
