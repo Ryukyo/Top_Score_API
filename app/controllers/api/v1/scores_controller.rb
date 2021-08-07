@@ -26,6 +26,10 @@ class Api::V1::ScoresController < ApplicationController
                     end
                 end
 
+                top_score = Api::V1::ScoreSerializer.new(top_score).serializable_hash
+                low_score = Api::V1::ScoreSerializer.new(low_score).serializable_hash
+                player_scores = Api::V1::ScoreSerializer.new(player_scores).serializable_hash
+
                 output = {
                     topScore: top_score,
                     lowScore: low_score,
@@ -35,7 +39,7 @@ class Api::V1::ScoresController < ApplicationController
                 # p(average_score, low_score, top_score)
                 # no requirement to use history of a player in combination with other params
                 # therefore: return and not look at other potentially submitted params
-                return render json: output, status: 200   
+                return render json: output, root: false, status: 200   
             end 
             if  params[:player] 
                 players = params[:player].map { |string| string.downcase.titleize }
