@@ -5,21 +5,52 @@ With a running server, the endpoints described below can be accessed, for exampl
 
 ## Getting Started
 
-rails c
-rails s
+To install required gems:
+
+```
 bundle install
+```
 
-- Environment
-  Ubuntu 20.04
-  Ruby
-  Ruby on Rails
+To interact with your Rails application from the command line
 
-- Configuration
+```
+bin/rails console
+```
 
-- Database setup
-  rails db:drop db:create db:migrate db:seed
+To launch a web server named Puma, running on localhost:3000 by default:
+`bin/rails server`
+For further commands and more detailed up to date documentation, please refer to https://guides.rubyonrails.org/command_line.html
+
+- Environment\
+  Ubuntu 20.04\
+  Ruby 3.0.0\
+  Ruby on Rails 6.1.4
+
+- Database setup\
+  The API is running on the default SQLite db
+
+  To get started, run the following command to execute the change method within the most recent migration file in the db/migrate directory:
+
+  ```
+  bin/rails db:migrate
+  ```
+
+  To seed the db with sample data from db/seeds.rb:
+
+  ```
+  bin/rails db:seed
+  ```
+
+  To reset your database completely, run the following commands in sequence
+
+  ```
+  bin/rails db:drop db:create db:migrate
+  ```
 
 - How to run the test suite
+  ```
+  bundle exec rspec
+  ```
 
 ## Scores
 
@@ -38,7 +69,7 @@ Sample body:
 
 ### Get
 
-Returns the score of the given id
+Returns the score of the given id\
 `api/v1/scores/{id}`
 
 Sample response:
@@ -51,7 +82,7 @@ Sample response:
 }
 ```
 
-Returns a filtered list of scores, or unfiltered if no parameters given; maximum limit of 100 to reduce stress on DB. All parameters are optional, multiple player names can be submitted, which are handled case insensitive.
+Returns a filtered list of scores, or unfiltered if no parameters given; maximum limit of 100 to reduce stress on DB. All parameters are optional, multiple player names can be submitted, which are handled case insensitive.\
 `api/v1/scores?after=2020-08-07&player[]=Hiromi&player[]=braNdon&before=2021-08-05&offset=1&limit=5`
 
 Sample response:
@@ -67,7 +98,7 @@ Sample response:
 ]
 ```
 
-Returns a players score history
+Returns a players score history\
 `api/v1/scores?history=Hiromi`
 
 This response is more deeply nested, as I used _jsonapi-serializer_, which does not allow to omit values like id or type and attaches the result data to the "attributes" property, but it successfully removed player and other timestamps.
@@ -125,5 +156,5 @@ Sample response:
 ### Delete
 
 Deletes the score of the given id.
-Returns a list of the remaining score entries
+Returns a list of the remaining score entries.\
 `api/v1/scores/{id}`
