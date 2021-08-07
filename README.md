@@ -47,18 +47,19 @@ For further commands and more detailed up to date documentation, please refer to
   bin/rails db:drop db:create db:migrate
   ```
 
-- How to run the test suite
+- How to run the test suite\
   :warning: Requires running server
 
   ```
   bundle exec rspec
   ```
+  Given the limited time, this is not an exhaustive list of tests, but by verifying the endpoints work as expected, the general functionality is assured.
 
 ## Scores
 
 ### Create
 
-Id will be assigned automatically\\
+Id will be assigned automatically\
 Score must be an integer > 0
 
 Sample body:
@@ -71,7 +72,7 @@ Sample body:
 
 ### Get
 
-Returns the score of the given id\\
+Returns the score of the given id\
 `api/v1/scores/{id}`
 
 Sample response:
@@ -84,7 +85,7 @@ Sample response:
 }
 ```
 
-Returns a filtered list of scores, or unfiltered if no parameters given; maximum limit of 100 to reduce stress on DB. All parameters are optional, multiple player names can be submitted, which are handled case insensitive.\\
+Returns a filtered list of scores, or unfiltered if no parameters given; maximum limit of 100 to reduce stress on DB. All parameters are optional, multiple player names can be submitted, which are handled case insensitive.\
 `api/v1/scores?after=2020-08-07&player[]=Hiromi&player[]=braNdon&before=2021-08-05&offset=1&limit=5`
 
 Sample response:
@@ -100,7 +101,7 @@ Sample response:
 ]
 ```
 
-Returns a players score history\\
+Returns a players score history\
 `api/v1/scores?history=Hiromi`
 
 This response is more deeply nested, as I used "jsonapi-serializer", which does not allow to omit values like id or type and attaches the result data to the "attributes" property, but it successfully removed player and other timestamps.
@@ -157,6 +158,6 @@ Sample response:
 
 ### Delete
 
-Deletes the score of the given id.
-Returns the deleted score for confirmation.\\
+Deletes the score of the given id.\
+Returns the deleted score for confirmation.\
 `api/v1/scores/{id}`
