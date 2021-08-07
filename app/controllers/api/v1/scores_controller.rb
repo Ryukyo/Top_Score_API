@@ -6,6 +6,37 @@ class Api::V1::ScoresController < ApplicationController
         def index
             @scores = Score.limit(limit).offset(params[:offset])
 
+            if  params[:history] 
+                history = params[:history].downcase.titleize
+                player_scores = @scores.where(player: history)
+
+                # find the average, max and min score of given player
+                average_score = player_scores.average(:score).to_f
+                top_score = player_scores.maximum(:score)
+                low_score = player_scores.minimum(:score)
+
+                # override the top/low score with the actual item
+                # item contains the time values which is required for output
+                player_scores.each do |item|
+                    if item.score == top_score
+                        top_score = item
+                    end
+                    if item.score == low_score
+                        low_score = item
+                    end
+                end
+
+                output = {
+                    topScore: top_score,
+                    lowScore: low_score,
+                    averageScore: average_score,
+                    allScores: player_scores
+                }
+                # p(average_score, low_score, top_score)
+                # no requirement to use history of a player in combination with other params
+                # therefore: return and not look at other potentially submitted params
+                return render json: output, status: 200   
+            end 
             if  params[:player] 
                 players = params[:player].map { |string| string.downcase.titleize }
                 @scores = @scores.where(player: players)   

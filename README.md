@@ -42,7 +42,7 @@ Returns a filtered list of scores, or unfiltered if no parameters given; maximum
 `api/v1/scores?after=2020-08-07&player[]=Hiromi&player[]=braNdon&before=2021-08-05&offset=1&limit=5`
 
 Returns a players score history
-`api/v1/scores?history=abc1`
+`api/v1/scores?history=Hiromi`
 
 ### Delete
 
