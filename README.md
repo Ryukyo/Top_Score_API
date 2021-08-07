@@ -1,6 +1,6 @@
 # A Ruby on Rails API
 
-A pure API project built with Ruby on Rails
+A pure API project built with Ruby on Rails\
 With a running server, the endpoints described below can be accessed, for example, through Postman, Insomnia or cURL
 
 ## Getting Started
